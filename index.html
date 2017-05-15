@@ -25,27 +25,32 @@
 </head>
 <body>
     <div class="page">
-        <iframe src="https://bpproto.herokuapp.com/sites/bff/#/mfm" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" id="page-iframe"></iframe>
+        <iframe src="http://localhost:5050/sites/bff/" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" id="page-iframe"></iframe>
     </div>
     <script>
         // Receiving the message
-        function onReceiving (event) {
-            console.log(event);
-            if (event.origin !== "https://bpproto.herokuapp.com/")
-                return;
+        var ifm = document.getElementById('page-iframe');
+        // pushing to app
+        function sendEvent(){
+            var frameContent = ifm.contentWindow;
+            frameContent.postMessage({
+                url: "#/mfm",
+                isGaia: true
+            }, "*");
         }
 
-        var ifm = document.getElementById('page-iframe');
-        ifm.onload = function(){
-            var frameContent = ifm.contentWindow;
-            console.log(frameContent);
+        // Receiving from app
+        window.onload = window.addEventListener("message", function(event){
+            console.log(event);
 
-            frameContent.postMessage("Hello there!", "https://www.jordanescoto.com/bff/");
+            // todo - enable for production
+            if (event.data.isGaia){
+                window.history.pushState("","", "#" + event.data.url);
+            } else {
 
-        };
+            }
 
-
-        window.addEventListener("message", onReceiving, false);
+        });
     </script>
 </body>
 </html>
