@@ -25,7 +25,7 @@
 </head>
 <body>
     <div class="page">
-        <iframe src="https://bpproto.herokuapp.com/sites/bff/" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>
+        <iframe src="https://bpproto.herokuapp.com/sites/bff/#/mfm" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" id="page-iframe"></iframe>
     </div>
     <script>
         // Receiving the message
@@ -34,6 +34,16 @@
             if (event.origin !== "https://bpproto.herokuapp.com/")
                 return;
         }
+
+        var ifm = document.getElementById('page-iframe');
+        ifm.onload = function(){
+            var frameContent = ifm.contentWindow;
+            console.log(frameContent);
+
+            frameContent.postMessage("Hello there!", "http://www.jordanescoto.com/bff/");
+
+        };
+
 
         window.addEventListener("message", onReceiving, false);
     </script>
