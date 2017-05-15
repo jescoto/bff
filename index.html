@@ -27,5 +27,15 @@
     <div class="page">
         <iframe src="https://bpproto.herokuapp.com/sites/bff/" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true"></iframe>
     </div>
+    <script>
+        // Receiving the message
+        function onReceiving (event) {
+            console.log(event);
+            if (event.origin !== "https://bpproto.herokuapp.com/")
+                return;
+        }
+
+        window.addEventListener("message", onReceiving, false);
+    </script>
 </body>
 </html>
